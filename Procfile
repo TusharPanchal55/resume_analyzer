@@ -1,1 +1,1 @@
-web: gunicorn resume_analyzer.wsgi
+web: gunicorn Resume_Analyzer1.wsgi
