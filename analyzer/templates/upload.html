@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-xl mx-auto bg-white shadow-lg rounded-xl p-8 relative">
+    <h2 class="text-2xl font-bold text-indigo-600 text-center mb-6">Upload Your Resume</h2>
+
+    <form id="resumeForm" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label class="block font-medium mb-1">Select Resume (PDF, DOCX, TXT)</label>
+            <input type="file" id="resumeInput" name="resume" class="border rounded p-2 w-full" required>
+            <p class="text-gray-500 mt-1">Selected File: <span id="fileName" class="text-indigo-600">None</span></p>
+        </div>
+
+        <button type="submit" class="w-full bg-indigo-600 text-white rounded p-2 font-bold flex justify-center items-center">
+            Analyze Resume
+        </button>
+    </form>
+
+    <!-- Loader at bottom of card -->
+    <div class="mt-6 w-full bg-gray-200 rounded-full h-4 overflow-hidden hidden" id="progressBar">
+        <div class="bg-indigo-600 h-4 w-0" id="progress"></div>
+    </div>
+</div>
+
+<script>
+const resumeInput = document.getElementById("resumeInput");
+const fileNameSpan = document.getElementById("fileName");
+const form = document.getElementById("resumeForm");
+const progressBar = document.getElementById("progressBar");
+const progress = document.getElementById("progress");
+
+resumeInput.addEventListener("change", () => {
+    fileNameSpan.textContent = resumeInput.files[0]?.name || "None";
+});
+
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    progressBar.classList.remove("hidden");
+    progress.style.width = "0%";
+
+    const file = resumeInput.files[0];
+    const formData = new FormData();
+    formData.append("resume", file);
+    formData.append("csrfmiddlewaretoken", '{{ csrf_token }}');
+
+    // Animate loader up to 85-90%
+    let width = 0;
+    const interval = setInterval(() => {
+        if(width < 85){
+            width += 1;
+            progress.style.width = width + "%";
+        }
+    }, 50);
+
+    // Submit form normally via fetch to get final result page
+    fetch("", { method: "POST", body: formData })
+        .then(response => response.text())
+        .then(() => {
+            clearInterval(interval);
+            progress.style.width = "100%"; // Fill completely
+            setTimeout(() => {
+                // Redirect to result page (full page reload)
+                form.submit();
+            }, 300); // small delay to show full loader
+        });
+});
+</script>
+{% endblock %}

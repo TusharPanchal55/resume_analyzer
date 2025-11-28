@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analyzer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: #f0f2f5; /* soft light background */
+            color: #1f2937; /* dark text */
+        }
+        .progress-bar {
+            height: 6px;
+            background: linear-gradient(90deg, #6366f1, #3b82f6, #10b981);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        pre {
+            background-color: #e5e7eb;
+            color: #1f2937;
+            padding: 12px;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body class="font-sans">
+
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-4">
+            <h1 class="text-2xl font-bold text-gray-800">Resume Analyzer</h1>
+        </div>
+    </nav>
+
+    <main class="container mx-auto my-8 px-4">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="text-center py-4 text-gray-500">
+        © 2025 Resume Analyzer
+    </footer>
+
+</body>
+</html>
