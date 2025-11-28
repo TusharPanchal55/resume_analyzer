@@ -1,10 +1,19 @@
-venv/
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 *.sqlite3
-media/
+venv/
+env/
+
+# Django
 staticfiles/
+media/
 .DS_Store
+
+# VS Code
+.vscode/
+
+# Environment variables
 .env
